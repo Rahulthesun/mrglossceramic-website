@@ -76,13 +76,13 @@
       width: 8px;
     }
 
-    ::-webkit-scrollbar-thumb { 
+    ::-webkit-scrollbar-thumb {
       height: 150px;
-      border-radius:15px;
+      border-radius: 15px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-    background: #ececec96;
+      background: #ececec96;
     }
 
     a {
@@ -249,7 +249,7 @@
       overflow-y: hidden;
     }
 
-    .headline-image-carousel img {
+    .desktop-headline-image-carousel img {
       width: 100%;
     }
 
@@ -379,12 +379,19 @@
       text-align: left;
     }
 
-    .desktop-service-headline h1 {
+    .desktop-service-headline h1,
+    #why-us h1 {
       font-weight: 700;
       font-size: 75px;
       line-height: 10px;
       letter-spacing: -0.05em;
       color: #000000;
+    }
+
+    #why-us h1 {
+      margin-bottom: 50px;
+      line-height: 75px;
+      margin-top: 10px;
     }
 
     .desktop-service-box {
@@ -411,11 +418,18 @@
       margin: 0px auto;
       display: grid;
       grid-template-columns: auto auto;
+      gap: 5em;
     }
 
-    .desktop-image {
-      width: 80%;
-      height: 300px;
+    .desktop-image-container {
+      width: 90%;
+      height: 400px;
+      overflow-y: hidden;
+    }
+
+    .desktop-image-container img {
+      width: 100%;
+      height: auto;
       border-radius: 20px 20px 0px 0px;
     }
 
@@ -426,17 +440,19 @@
     }
 
     .desktop-item-text {
-      width: 80%;
+      width: 90%;
       box-sizing: border-box;
       background: #ffffff;
       border: 3px solid #2d2d2d;
       box-shadow: -9px 13px 19.5px rgba(0, 0, 0, 0.3);
       border-radius: 0px 0px 20px 20px;
       padding-bottom: 20px;
+      height: 55%;
     }
 
     .desktop-item-text button {
       margin-top: 20px;
+      margin-bottom: 10px;
     }
 
     .desktop-item-text h3 {
@@ -458,6 +474,7 @@
       font-weight: 400;
       font-size: 16px;
       line-height: 25px;
+      height: 250px;
 
       color: #000000;
     }
@@ -567,12 +584,39 @@
       width: 80%;
       margin: 30px auto;
       justify-content: space-evenly;
-
     }
 
     .desktop-footer-icons i {
       font-size: 50px;
       color: white;
+    }
+
+    .desktop-why-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 30px;
+      margin: 50px auto;
+    }
+
+    .desktop-why-box {
+      width: 98%;
+      border-radius: 20px;
+      background-color: white;
+      padding: 10px 10px;
+    }
+
+    .desktop-why-box-content,
+    .desktop-why-box-content-2 {
+      width: 90%;
+      margin: auto auto;
+    }
+    .desktop-why-box-content img {
+      width: auto;
+      height: 150px;
+    }
+
+    .desktop-why-box-content h2 {
+      margin-bottom: 0px;
     }
 
     .mobile-navbar,
@@ -581,7 +625,9 @@
     .aim-mobile-headline,
     .aim-mobile-content,
     .products-image-carousel,
-    .mobile-footer {
+    .mobile-footer,
+    .mobile-why-container,
+    .mobile-headline-image-carousel {
       display: none;
     }
 
@@ -593,7 +639,8 @@
 
       .aim-mobile-headline,
       .mobile-footer,
-      .products-image-carousel {
+      .products-image-carousel,
+      .mobile-headline-image-carousel {
         display: block;
       }
 
@@ -606,7 +653,9 @@
       .aim-desktop-endline,
       .desktop-service-box,
       .desktop-image-carousel,
-      .desktop-footer {
+      .desktop-footer,
+      .desktop-why-container,
+      .desktop-headline-image-carousel {
         display: none;
       }
 
@@ -690,7 +739,7 @@
       .aim-mobile-content {
         display: block;
         width: 90%;
-        margin: auto auto;
+        margin: 20px auto;
       }
 
       #service-box,
@@ -738,6 +787,7 @@
         text-align: center;
         letter-spacing: -0.05em;
         margin-bottom: 0px;
+        margin-top: 30px;
       }
 
       .aim-mobile-headline h1,
@@ -816,11 +866,24 @@
         border: 2px solid red;
       }
 
-      .headline-image-carousel {
+      .mobile-headline-image-carousel {
+        width: 100%;
+        height: 380px;
+        overflow-y: hidden;
+        margin-bottom: 0px;
+      }
+
+      .mobile-headline-image-carousel img {
         width: 100%;
       }
 
-      .headline-image-carousel img {
+      .mobile-image-container {
+        width: 100%;
+        height: 300px;
+        overflow-y: hidden;
+      }
+
+      .mobile-image-container img {
         width: 100%;
         height: auto;
       }
@@ -830,7 +893,8 @@
         padding-top: 0px;
       }
 
-      .why-content {
+      .why-content,
+      .mobile-why-container {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -1031,9 +1095,9 @@
         text-align: left;
         font-weight: 700;
         font-size: 32px;
-        line-height: 5px;
-        margin-top: 50px;
-        margin-bottom: 30px;
+        line-height: 40px;
+        margin-top: 30px;
+        margin-bottom: 10px;
         letter-spacing: -0.05em;
       }
 
@@ -1055,5 +1119,62 @@
     {% block content %} {% endblock %}
   </body>
 
-  <script></script>
+  <script>
+    var desktopIndex = 0;
+    var mobileIndex = 0;
+  
+    // Function to swap image source sequentially for desktop
+    function swapdesktopImage() {
+      var images = [
+        "https://i.ibb.co/2M80Hyy/desktop-3.png",
+        "https://i.ibb.co/5vbhTJ3/desktop-9.png",
+        "https://i.ibb.co/XWqXVCz/desktop-7.png",
+        "https://i.ibb.co/L1wf66F/desktop-8.png",
+        "https://i.ibb.co/gRmqJ4R/desktop-1.png",
+      ];
+  
+      var img = document.getElementById("desktop-img");
+  
+      img.src = images[desktopIndex];
+  
+      desktopIndex++;
+  
+      if (desktopIndex >= images.length) {
+        desktopIndex = 0;
+      }
+    }
+  
+    // Function to swap image source sequentially for mobile
+    function swapmobileImage() {
+      var images = [
+        "https://i.ibb.co/Cvg6S02/6.png",
+        "https://i.ibb.co/KFpHQfQ/4.png",
+        "https://i.ibb.co/jz5dHSd/7.png",
+        "https://i.ibb.co/wRhknGt/Untitled-design-17.png",
+      ];
+  
+      var img = document.getElementById("mobile-img");
+  
+      img.src = images[mobileIndex];
+  
+      mobileIndex++;
+  
+      if (mobileIndex >= images.length) {
+        mobileIndex = 0;
+      }
+    }
+  
+    function isMobileDevice() {
+      return (
+        typeof window.orientation !== "undefined" ||
+        navigator.userAgent.indexOf("IEMobile") !== -1
+      );
+    }
+  
+    if (isMobileDevice()) {
+      setInterval(swapmobileImage, 3000);
+    } else {
+      setInterval(swapdesktopImage, 3000);
+    }
+  </script>
 </html>
